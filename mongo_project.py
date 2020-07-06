@@ -25,27 +25,45 @@ def show_menu():
     print("Option 5. Exit")
     print("")
 
-    option = int(input())
+    option = input("Enter an option:")
     return option
+
+def add_record():
+    fname = input("Enter first name: ")
+    lname = input("Enter last name: ")
+    dob = input("Enter date of birth: ")
+    gender = input("Enter gender: ")
+    hair_colour = input("Enter hair colour: ")
+    occupation = input("Enter occupation: ")
+    nationality = input("Enter nationality: ")
+
+    try:
+        coll.insert({"first": fname.lower(), "last": lname.lower(), "dob": dob, "gender": gender, "hair_colour": hair_colour, "occupation": occupation, "nationality": nationality})
+        print()
+        print("Document Inserted")
+    except:
+        print("Error accessing the database")
 
 def main_loop():
     while True:
         option = show_menu()
-        if option == 1:
+        if option == "1":
             print("You have selected option 1")
-        elif option == 2:
+            add_record()
+        elif option == "2":
             print("You have selected option 2")
-        elif option == 3:
+        elif option == "3":
             print("You have selected option 3")
-        elif option == 4:
+        elif option == "4":
             print("You have selected option 4")
-        elif option == 5:
+        elif option == "5":
             conn.close()
             break
         else:
             print("Invalid option")
         print("")
 
-main_loop()
 conn = mongo_connect(MONGODB_URI)
 coll = conn[DBS_NAME][COLLECTION_NAME]
+
+main_loop()

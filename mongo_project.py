@@ -25,10 +25,26 @@ def show_menu():
     print("Option 5. Exit")
     print("")
 
-    option = input("Enter an option:")
+    option = input("Enter an option: ")
     return option
 
+def get_record():
+    print()
+    fname = input("Enter first name: ")
+    lname = input("Enter last name: ")
+
+    try:
+        doc = coll.find_one({"first": fname.lower(), "last": lname.lower()})
+        return doc
+    except:
+        print("Error accessing the database")
+
+    if not doc:
+        print()
+        print("Error! No results found.")
+
 def add_record():
+    print()
     fname = input("Enter first name: ")
     lname = input("Enter last name: ")
     dob = input("Enter date of birth: ")
@@ -44,6 +60,14 @@ def add_record():
     except:
         print("Error accessing the database")
 
+def find_record():
+    doc = get_record()
+    if doc:
+        print()
+        for k,v in doc.items():
+            if k != "_id":
+                print(k.capitalize() + ": " + v.capitalize())
+
 def main_loop():
     while True:
         option = show_menu()
@@ -52,6 +76,7 @@ def main_loop():
             add_record()
         elif option == "2":
             print("You have selected option 2")
+            find_record()
         elif option == "3":
             print("You have selected option 3")
         elif option == "4":
